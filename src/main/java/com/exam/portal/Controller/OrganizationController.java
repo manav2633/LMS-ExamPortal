@@ -1,5 +1,6 @@
 package com.exam.portal.Controller;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -35,9 +38,6 @@ public class OrganizationController {
 		model.addAttribute("org", org);
 		return "organiser/organization/org";
 	}
-	
-	
-	
 
 	@GetMapping("/organiser/organization/new")
 	public String newOrg() {
@@ -52,13 +52,22 @@ public class OrganizationController {
 		return "redirect:/organiser/organization/";
 	}
 
-//	 @GetMapping("/organiser/organization/view")
-//	    public String viewExam(Model model){
-//	        Organization org=repo.findByOrganizationId(9);
-//	        System.out.println(org.getEmail_id());
-//	       // model.addAttribute("org",org);
-//	        return "organiser/organization/oview";
-//	    }
+	// Delete item from Config Campaign
+	@RequestMapping(value = "/organiser/delcampaign", method = RequestMethod.GET)
+	public String deleteConfig(@RequestParam("cid") Integer[] configId) {
+		System.out.println("hello");
+		repo.delOrg(Arrays.asList(configId));
+
+		return "redirect:/organiser/organization";
+	}
+
+	// @GetMapping("/organiser/organization/view")
+	// public String viewExam(Model model){
+	// Organization org=repo.findByOrganizationId(9);
+	// System.out.println(org.getEmail_id());
+	// // model.addAttribute("org",org);
+	// return "organiser/organization/oview";
+	// }
 
 	@GetMapping("/organiser/organization/view/{id}")
 	public String viewOrganization(@PathVariable("id") Integer id, Model model) {
@@ -71,21 +80,21 @@ public class OrganizationController {
 		}
 		return "organiser/organization/oview";
 	}
-	
-	
-//	@PostMapping("/organiser/organization/edit")
-//	public String editOrganization(@ModelAttribute("org") Organization org) {
-//		// Handle organization edit logic here
-//		// You can use the organization object passed from the form to update the
-//		// organization details in the database
-//		// For example:
-//		Organization existingOrg = repo.findByOrganizationId(org.getOrganizationId());
-//		if (existingOrg != null) {
-//			existingOrg.setOrganization_name(org.getOrganization_name());
-//			// Set other fields as needed
-//			repo.save(existingOrg); // Save the updated organization
-//		}
-//		return "redirect:/organiser/organization/view/" + org.getOrganizationId();
-//	}
-	
+
+	// @PostMapping("/organiser/organization/edit")
+	// public String editOrganization(@ModelAttribute("org") Organization org) {
+	// // Handle organization edit logic here
+	// // You can use the organization object passed from the form to update the
+	// // organization details in the database
+	// // For example:
+	// Organization existingOrg =
+	// repo.findByOrganizationId(org.getOrganizationId());
+	// if (existingOrg != null) {
+	// existingOrg.setOrganization_name(org.getOrganization_name());
+	// // Set other fields as needed
+	// repo.save(existingOrg); // Save the updated organization
+	// }
+	// return "redirect:/organiser/organization/view/" + org.getOrganizationId();
+	// }
+
 }

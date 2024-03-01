@@ -55,20 +55,26 @@
 					<div class="row">
 						<div class="col-12">
 							<div class="card">
-								<div class="card-header">
-									<a class="btn btn-warning"
-										th:href="@{/organiser/organization/new}">Register New
-										Organization</a>&nbsp;&nbsp;&nbsp;&nbsp;
-										
-										
-										<a class="btn btn-danger"
-										th:href="@{/organiser/organization/delete}">Delete Selected Record</a>
+								<form th:action="@{/organiser/delcampaign}" >
+									<div class="card-header">
+										<div class="dropdown">
+											<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+												Actions
+											</button>
+											<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+												<a  class="btn btn-success" th:href="@{/organiser/organization/new}" style="display: block;">Register New Organization</a><br>
+												<input type="submit" class="btn btn-danger" value="Delete Selected Organization" style="margin-bottom: 10px;">
+											</div>
+										</div>
+									</div>
+									
 								</div>
 								<div class="card-body">
+									
 									<table id="examList" class="table table-bordered table-striped">
 										<thead>
 											<tr>
-												<th><input type="checkbox" id="selectAll"></th>
+												<th>Select</th>
 												<th>Id</th>
 												<th>Name</th>
 												<th>ContactNo</th>
@@ -79,8 +85,8 @@
 										</thead>
 										<tbody>
 											<tr th:each="org : ${org}">
-												<td><input type="checkbox" class="rowCheckbox"
-													data-id="${org.organizationId}"></td>
+												<td><input type="checkbox" name="cid"
+													th:value="${org.organizationId}"></td>
 												<td><a
 													th:href="@{'/organiser/organization/view/' + ${org.organizationId}}"
 													th:text="${org.organizationId}"></a></td>
@@ -103,8 +109,12 @@
 
 										</tfoot>
 									</table>
+								
+									
 								</div>
+
 								<!-- /.card-body -->
+							</form>
 							</div>
 							<!-- /.card -->
 						</div>
