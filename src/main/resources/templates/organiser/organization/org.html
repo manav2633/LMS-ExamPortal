@@ -63,7 +63,7 @@
                                <table id="examList" class="table table-bordered table-striped">
 										<thead>
 											<tr>
-												<th>Select</th>
+												<th><input type="checkbox" id="selectAll" /></th>
 												<th>Id</th>
 												<th>Name</th>
 												<th>ContactNo</th>
@@ -76,7 +76,10 @@
 											<tr th:each="org : ${org}">
 												<td><input type="checkbox" class="checkbox" name="cid"
 													th:value="${org.organizationId}"></td>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2e98835ebe4b6de55d19407a75f60e95683e5eb4
 												<td>
 													<a
 													th:href="@{'/organiser/organization/view/' + ${org.organizationId}}"
@@ -135,7 +138,12 @@
 <!-- AdminLTE -->
 <script src="/webjars/AdminLTE/3.0.0/dist/js/adminlte.js"></script>
 
+<<<<<<< HEAD
 <script>
+=======
+	<script>
+		// pagenation 
+>>>>>>> 2e98835ebe4b6de55d19407a75f60e95683e5eb4
     $(function () {
         $('#examList').DataTable({
             "paging": true,
@@ -147,6 +155,49 @@
             "responsive": true,
         });
     });
+
+	function deleteContact(cid) {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You want to delete this contact..",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "/user/delete/" + cid;
+                }
+                else {
+                    Swal("your contact is safe !! ")
+                }
+            });
+        }
+
+		document.getElementById("selectAll").addEventListener("change", function() {
+  var checkboxes = document.querySelectorAll(".checkbox");
+  for (var checkbox of checkboxes) {
+    checkbox.checked = this.checked;
+  }
+});
+
+function deleteSelected() {
+  var checkboxes = document.querySelectorAll(".checkbox:checked");
+  if (checkboxes.length === 0) {
+    alert("Please select at least one contact to delete.");
+    return;
+  }
+  if (confirm("Are you sure you want to delete the selected contacts?")) {
+    // Submit the form or perform AJAX request to delete selected contacts
+    // Example: document.getElementById("yourFormId").submit();
+    // Replace "yourFormId" with the actual ID of your form
+    console.log("Deleting selected contacts...");
+  }
+}
+
+
+
 </script>
 
 </body>
