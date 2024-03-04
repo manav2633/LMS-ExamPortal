@@ -43,6 +43,8 @@ public class OrganizationController {
 	public String newOrg() {
 		return "organiser/organization/createOrg";
 	}
+	
+	
 
 	@PostMapping("/organiser/organization/register")
 	public String registerOrganization(@ModelAttribute Organization organization) {

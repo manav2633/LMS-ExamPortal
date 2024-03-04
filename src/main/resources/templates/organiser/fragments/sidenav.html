@@ -44,6 +44,7 @@
 	<aside class="main-sidebar sidebar-dark-primary elevation-4">
 		<!-- Brand Logo -->
 		<a th:href="@{/organiser/dashboard}" class="brand-link d-block">
+		
 		 <span
 			class="brand-text font-weight-light d-block text-center"><b>BISAG-N</b></span>
 		</a>
@@ -64,6 +65,16 @@
 						class="nav-link"> <i class="nav-icon fas fa-th"></i>
 							<p>Dashboard</p>
 					</a></li>
+					
+					
+					<li class="nav-item has-treeview"><a href="/organiser/assign" class="nav-link">
+							<i class="fa fa-building nav-icon"></i>
+							<p>
+								Assign Roles<i class="fa fa-angle-left right"></i>
+							</p>
+					</a>
+						</li>
+						
 
 					<li class="nav-item has-treeview"><a href="/organiser/organization" class="nav-link">
 							<i class="fa fa-building nav-icon"></i>
@@ -74,10 +85,10 @@
 						<ul class="nav nav-treeview">
 							<li class="nav-item"><a href="/organiser/organization"
 								class="nav-link"> Registered Organization </a></li>
-							<li class="nav-item"><a href="#" class="nav-link"> Nodal
+							<li class="nav-item"><a href="/organiser/nodal" class="nav-link"> Nodal
 									Officers </a></li>
 						</ul></li>
-						<li class="nav-item"><a href="#"
+						<li class="nav-item"><a href="/organiser/program"
 						class="nav-link"> <i class="nav-icon fa fa-desktop"></i>
 							<p>Registered Program</p><i class="fa fa-angle-left right"></i>
 					</a></li>

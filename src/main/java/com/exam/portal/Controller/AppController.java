@@ -27,4 +27,10 @@ public class AppController {
 	public String contactUs() {
 		return "contact";
 	}
+	
+	
+	@GetMapping("organiser/assign")
+	public String Showroles() {
+		return "organiser/assign_roles";
+	}
 }
