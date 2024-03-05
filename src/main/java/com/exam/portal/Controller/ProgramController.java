@@ -12,9 +12,9 @@ public class ProgramController {
 		return "organiser/program/program_view";
 	}
 	
-//	@GetMapping("/organiser/nodalCreate")
-//	public String createNodal() {
-//		return "organiser/nodal/nodal_create";
-//	}
+	@GetMapping("/organiser/programCreate")
+	public String createNodal() {
+		return "organiser/program/program_create";
+	}
 
 }
