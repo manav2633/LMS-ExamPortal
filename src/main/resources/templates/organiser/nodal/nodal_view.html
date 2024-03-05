@@ -76,6 +76,7 @@
 											class="table table-bordered table-striped">
 											<thead>
 												<tr>
+													<th>Select</th>
 													<th>ORG.Id.</th>
 													<th>Nodal.Id.</th>
 													<th>Nodal Name</th>
@@ -143,6 +144,9 @@
             "info": true,
             "autoWidth": false,
             "responsive": true,
+			"columnDefs": [
+            { "orderable": false, "targets": [0] } // Disable sorting for the first column (index 0)
+        ]
         });
     });
 </script>

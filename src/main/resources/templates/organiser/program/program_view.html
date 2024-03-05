@@ -75,7 +75,8 @@
 											class="table table-bordered table-striped">
 											<thead>
 												<tr>
-													<th>ORG.Id.</th>
+													<th>Select</th>
+													<th>Org.Id</th>
 													<th>Register-Program</th>
 													<th>Nodal Id.</th>
 													<th>Program Id.</th>
@@ -141,6 +142,9 @@
             "info": true,
             "autoWidth": false,
             "responsive": true,
+			"columnDefs": [
+            { "orderable": false, "targets": [0] } // Disable sorting for the first column (index 0)
+        ]
         });
     });
 </script>

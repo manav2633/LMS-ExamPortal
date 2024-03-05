@@ -54,8 +54,8 @@
 												Actions
 											</button>
 											<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-												<a class="dropdown-item"  th:href="@{/organiser/organization/new}" ><b>Register New Organization</b></a>
-												<input type="submit" class="dropdown-item" value="Delete Selected Organization" style="margin-bottom: 10px; font-weight: bold;">
+												<a class="dropdown-item"  th:href="@{/organiser/organization/new}" ><b style="font-size: large;">Register New Organization</b></a>
+												<input type="submit" class="dropdown-item" value="Delete Selected Organization" style="margin-bottom: 10px; font-weight: bold;font-size: large;">
 											</div>
 										</div>
                             </div>
@@ -136,17 +136,20 @@
 <script src="/webjars/AdminLTE/3.0.0/dist/js/adminlte.js"></script>
 
 <script>
-    $(function () {
-        $('#examList').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "responsive": true,
-        });
+$(document).ready(function() {
+    $('#examList').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+        "columnDefs": [
+            { "orderable": false, "targets": [0] } // Disable sorting for the first column (index 0)
+        ]
     });
+});
 </script>
 
 </body>
