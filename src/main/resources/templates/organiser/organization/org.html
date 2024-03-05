@@ -86,11 +86,11 @@
 												<td th:text="${org.email_id}"></td>
 												<td th:text="${org.registered_date}"></td>
 
-												<!-- <!-- th:if="${exam.isOver()}" -->
+												<!--  th:if="${exam.isOver()}" -->
 												<td><span class="badge badge-primary"> <a
 														class="text-white" th:href="@{/organiser/exams/result}">Pending</a>
 												</span> <a class="text-success ml-3"
-													th:href="@{/organiser/exams/edit}"><i class="fa fa-pen"></i></a>
+													th:href="@{/organiser/org/edit(id=${org.organizationId})}"><i class="fa fa-pen"></i></a>
 												</td> 
 
 											</tr>

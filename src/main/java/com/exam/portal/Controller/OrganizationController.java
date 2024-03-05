@@ -99,4 +99,12 @@ public class OrganizationController {
 	// return "redirect:/organiser/organization/view/" + org.getOrganizationId();
 	// }
 
+	@GetMapping("/organiser/org/edit")
+    public String editExam(@RequestParam(name = "id")Integer id, Model model){
+          Organization org=repo.findByOrganizationId(id);
+        model.addAttribute("org",org);
+        return "organiser/organization/updateOrg";
+    }
+
+
 }
