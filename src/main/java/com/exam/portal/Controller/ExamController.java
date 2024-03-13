@@ -39,7 +39,7 @@ public class ExamController {
     @Autowired
     private JavaMailSender javaMailSender;
 
-    @Autowired
+    @Autowired(required = true)
     ExamRepository repo;
 
     @Autowired
