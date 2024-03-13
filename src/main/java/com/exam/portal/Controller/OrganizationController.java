@@ -1,6 +1,7 @@
 package com.exam.portal.Controller;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -43,8 +44,6 @@ public class OrganizationController {
 	public String newOrg() {
 		return "organiser/organization/createOrg";
 	}
-	
-	
 
 	@PostMapping("/organiser/organization/register")
 	public String registerOrganization(@ModelAttribute Organization organization) {
@@ -63,13 +62,7 @@ public class OrganizationController {
 		return "redirect:/organiser/organization";
 	}
 
-	// @GetMapping("/organiser/organization/view")
-	// public String viewExam(Model model){
-	// Organization org=repo.findByOrganizationId(9);
-	// System.out.println(org.getEmail_id());
-	// // model.addAttribute("org",org);
-	// return "organiser/organization/oview";
-	// }
+	
 
 	@GetMapping("/organiser/organization/view/{id}")
 	public String viewOrganization(@PathVariable("id") Integer id, Model model) {
@@ -100,11 +93,33 @@ public class OrganizationController {
 	// }
 
 	@GetMapping("/organiser/org/edit")
-    public String editExam(@RequestParam(name = "id")Integer id, Model model){
-          Organization org=repo.findByOrganizationId(id);
-        model.addAttribute("org",org);
-        return "organiser/organization/updateOrg";
-    }
+	public String editExam(@RequestParam(name = "id") Integer id, Model model) {
+		Organization org = repo.findByOrganizationId(id);
+		model.addAttribute("org", org);
+		return "organiser/organization/updateOrg";
+	}
 
+	@PostMapping("/organiser/org/edit")
+	public String editSaveOrg(Organization org) {
+		Organization org1 = repo.findByOrganizationId(org.getOrganizationId());
+		if (org1 != null) {
+			// Update the properties of the retrieved organization object
+			// with the properties of the org object passed as a parameter
+			// (Assuming that you want to update the existing organization)
+			org1.setOrganization_name(org.getOrganization_name());
+			org1.setDescription(org.getDescription());
+			// Update other properties as needed
+			
+			// Save the updated organization object back to the repository
+			repo.save(org1);
+		} else {
+			System.out.println("does not print ");
+			// Handle the case where the organization is not found
+			// You may want to log an error message or handle it differently
+		}
+	
+		// Redirect to the appropriate page after saving
+		return "redirect:/organiser/organization";
 
+	}
 }

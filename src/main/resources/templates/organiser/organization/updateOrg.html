@@ -45,7 +45,7 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="card card-primary">
-                    <form th:action="@{/organiser/organization/register}" method="post" th:object="${org}">
+                    <form th:action="@{/organiser/org/edit}" method="post" th:object="${org}">
                         <div class="card-body">
                             <div class="row">
                                 <!-- right side -->
@@ -73,6 +73,7 @@
                                                 data-target-input="nearest">
                                                 <input type="text"
                                                 th:field="*{registered_date}"
+                                                id="datetimepicker1"
                                                     class="form-control datetimepicker-input"
                                                     data-target="#registrationDate"
                                                     placeholder="Registration date" />
@@ -126,7 +127,7 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-primary">Create</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
                         </div>
                     </form>
                 </div>
