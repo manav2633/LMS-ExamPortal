@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.exam.portal.Model.Organization;
 import com.exam.portal.Model.course;
+
 import com.exam.portal.Repository.courseRepository;
 
 @Controller
@@ -18,7 +19,11 @@ public class CourseController {
 	@Autowired
     courseRepository repo;
 
-
+	@GetMapping("/organiser/user")
+	public String viewUser(){
+		return "organiser/abc/abc";
+	}
+	
 	@GetMapping("/organiser/course")
 	public String viewNodal(Model model) {
 

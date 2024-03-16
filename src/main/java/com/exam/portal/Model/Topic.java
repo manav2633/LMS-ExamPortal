@@ -126,14 +126,7 @@ public class Topic {
 	         
 	        return "/user-files/" + pdfFile;
 	    }
-    
 
-	
-    
-    
-    
-    
-    
     
 
 	
