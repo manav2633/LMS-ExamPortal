@@ -5,6 +5,10 @@ import com.exam.portal.Repository.*;
 import com.exam.portal.Utils.CSVHelper;
 import com.exam.portal.Utils.RandomString;
 import com.exam.portal.Utils.ResponseMessage;
+
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +24,11 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.*;
 
 @Controller
@@ -44,6 +52,80 @@ public class UserController {
 
     @Autowired
     OptionRepository optionRepository;
+    @Autowired
+    AnswerRepository answerRepository;
+
+
+    
+    public List<Question> csvToQuestions(InputStream is, Long examId) {
+        try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+             CSVParser csvParser = new CSVParser(fileReader,
+                     CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());) {
+
+            List<Question> questions = new ArrayList<>();
+
+            Iterable<CSVRecord> csvRecords = csvParser.getRecords();
+
+            for (CSVRecord csvRecord : csvRecords) {
+                Question question = new Question();
+                question.setStatement(csvRecord.get("Statement"));
+                // Set the exam for the question
+                Exam exam = new Exam();
+                exam.setId(examId);
+                question.setExams(exam);
+
+                // Save the question to get its ID
+                question = questionRepository.save(question);
+
+                // Parse options
+                for (int i = 1; i <= 4; i++) {
+                    String optionText = csvRecord.get("Option" + i);
+                    if (optionText != null && !optionText.isEmpty()) {
+                        Option option = new Option(question, optionText);
+                        optionRepository.save(option);
+                    }
+                }
+
+                // Parse answer
+                String answerText = csvRecord.get("Answer");
+                if (answerText != null && !answerText.isEmpty()) {
+                    Option correctOption = optionRepository.findByQuestionsAndOption(question, answerText);
+                    if (correctOption != null) {
+                        Answer answer = new Answer(question, correctOption);
+                        answerRepository.save(answer);
+                    } else {
+                        throw new RuntimeException("Answer option not found for question: " + question.getStatement());
+                    }
+                }
+
+                questions.add(question);
+            }
+
+            return questions;
+        } catch (IOException e) {
+            throw new RuntimeException("Fail to parse CSV file: " + e.getMessage());
+        }
+    }
+
+    public void saveCSVQuiz(MultipartFile file, Long examId) {
+        try {
+            List<Question> questions = csvToQuestions(file.getInputStream(), examId);
+            
+            // Save questions to the database
+            for (Question question : questions) {
+                Question savedQuestion = questionRepository.save(question);
+                
+                // Save associated answer
+                if (question.getAnswer() != null) {
+                    question.getAnswer().setQuestions(savedQuestion);
+                    answerRepository.save(question.getAnswer());
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Fail to store CSV data: " + e.getMessage());
+        }
+    }
+
 
     public void saveCSVFile(MultipartFile file, Long exam_id) {
         try {
@@ -88,6 +170,29 @@ public class UserController {
             ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
         }
         return "redirect:/organiser/exams/view?id="+exam_id;
+    }
+
+    @PostMapping("/user/csv/uploadQuiz")
+    public String uploadquiz(@RequestParam("files") MultipartFile file,
+                             @RequestParam(name = "exam_id") Long examId,
+                             RedirectAttributes redirectAttributes,
+                             Model model) {
+        String message;
+
+        if (CSVHelper.hasCSVFormat(file)) {
+            try {
+                saveCSVQuiz(file, examId);
+                message = "Uploaded the file successfully: " + file.getOriginalFilename();
+                redirectAttributes.addFlashAttribute("success_message", message);
+            } catch (Exception e) {
+                message = "Could not upload the file: " + file.getOriginalFilename() + "!";
+                redirectAttributes.addFlashAttribute("error_message", message);
+            }
+        } else {
+            message = "Please upload a csv file!";
+            redirectAttributes.addFlashAttribute("error_message", message);
+        }
+        return "redirect:/organiser/exams/view?id=" + examId;
     }
 
     @PostMapping("/organiser/user/add")

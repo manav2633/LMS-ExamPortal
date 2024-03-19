@@ -89,6 +89,16 @@
                                 <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#modal-question">
                                     Add Question
                                 </button>
+                                <form method="POST" th:action="@{/user/csv/uploadQuiz}" enctype="multipart/form-data" class="form-inline">
+                                    <input type="hidden" name="exam_id" th:value="${exam.getId()}">
+                                    <div class="form-group p-2">
+                                        <label for="file" class="pr-2">Select a CSV file</label>
+                                        <input type="file" name="files" class="form-control p-1" id="file" accept=".csv">
+                                    </div>
+                                    <div class="form-group p-2">
+                                        <button type="submit" class="btn btn-primary">Import Quiz</button>
+                                    </div>
+                                </form>
                                 <ol>
                                     <li th:each="question :${exam.getQuestions()}">
                                         <div>
@@ -191,6 +201,8 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
+
+                                
                                 <div class="modal-body">
                                     <input type="hidden" class="form-control" name="exam_id" th:value="${exam.getId()}">
                                     <div class="form-group">
