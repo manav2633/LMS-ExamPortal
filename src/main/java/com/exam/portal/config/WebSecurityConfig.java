@@ -52,7 +52,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 	    http
+<<<<<<< HEAD
 		.csrf().disable()
+=======
+	        .csrf().disable()
+>>>>>>> 9df55da712840a4bbaf364f7489758dc0b9f61eb
 	        .authorizeRequests()
 	            .antMatchers("/organiser/register").permitAll()
 				.antMatchers("/student/add","/student/getAll").permitAll()

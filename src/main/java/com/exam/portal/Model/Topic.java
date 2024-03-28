@@ -7,36 +7,36 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-
-
 @Entity
 @Table(name = "topic_registration")
 public class Topic {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // Primary key for topic_registration table
-    private int sequenceNo;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	// Primary key for topic_registration table
+	private int sequenceNo;
 
-    // @ManyToOne
-    private int topicCreatorId;
+	// @ManyToOne
+	private int topicCreatorId;
 
-    // @OneToMany
-    private int topicId;
+	// @OneToMany
+	private int topicId;
 
-//    @NotBlank(message = " Topic Name cannot be empty")
-//    @Pattern(regexp = "^[A-Za-z][A-Za-z-'. ][A-Za-z]*$", message = " Topic Name has invalid characters")
-    private String topicName;
+	// @NotBlank(message = " Topic Name cannot be empty" )
+	// @Pattern(regexp = "^[A-Za-z][A-Za-z-'. ][A-Za-z]*$", message = " Topic Name
+	// has invalid characters")
+	private String topicName;
 
-//    @NotBlank(message = " Descrpition cannot be empty")
-//    @Pattern(regexp = "^[A-Za-z][A-Za-z-'. ][A-Za-z]*$", message = " Descrpition has invalid characters")
-    private String topicDescrpition;
+	// @NotBlank(message = " Descrpition cannot be empty")
+	// @Pattern(regexp = "^[A-Za-z][A-Za-z-'. ][A-Za-z]*$", message = " Descrpition
+	// has invalid characters")
+	private String topicDescrpition;
 
-    private String videoFile;
+	private String videoFile;
 
-    private String transcriptFile;
+	private String transcriptFile;
 
-    private String pdfFile;
+	private String pdfFile;
 
 	public int getSequenceNo() {
 		return sequenceNo;
@@ -119,17 +119,13 @@ public class Topic {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	 @Transient
-	    public String getFile() {
-	        if (pdfFile== null || sequenceNo == 0 ) return null;
-	         
-	        return "/user-files/" + pdfFile;
-	    }
 
-    
+	@Transient
+	public String getFile() {
+		if (pdfFile == null || sequenceNo == 0)
+			return null;
 
-	
-    
-    
+		return "/user-files/" + pdfFile;
+	}
+
 }
