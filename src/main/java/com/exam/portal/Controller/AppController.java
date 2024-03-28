@@ -10,8 +10,35 @@ public class AppController {
 
 	@GetMapping("/")
 	public String index() {
-		return "organiser/login";
+		return "index1";
 	}
+	@GetMapping("/login")
+	public String login() {
+		return "log-in.html";
+	}
+	@GetMapping("/trainee_signup")
+	public String Signup() {
+		return "sign-up.html";
+	}
+	@GetMapping("/courses")
+	public String CourseLogin() {
+		return "courses.html";
+	}
+
+	@GetMapping("/courses-details.html")
+	public String CourseDetails() {
+		return "courses-details.html";
+	}
+	@GetMapping("/sign-up.html")
+	public String SignUpOrganization() {
+		return "organization_signup.html";
+	}
+	@GetMapping("/sign-up-trainee.html")
+	public String SignUpTrainee() {
+		return "sign-up.html";
+	}
+	
+
 	
 	@GetMapping("/exam")
 	public String exam() {

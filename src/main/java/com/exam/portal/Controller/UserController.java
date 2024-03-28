@@ -9,7 +9,6 @@ import com.exam.portal.Utils.ResponseMessage;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -126,6 +125,29 @@ public class UserController {
         }
     }
 
+    @PostMapping("/user/csv/uploadQuiz")
+    public String uploadquiz(@RequestParam("files") MultipartFile file,
+                             @RequestParam(name = "exam_id") Long examId,
+                             RedirectAttributes redirectAttributes,
+                             Model model) {
+        String message;
+
+        if (CSVHelper.hasCSVFormat(file)) {
+            try {
+                saveCSVQuiz(file, examId);
+                message = "Uploaded the file successfully: " + file.getOriginalFilename();
+                redirectAttributes.addFlashAttribute("success_message", message);
+            } catch (Exception e) {
+                message = "Could not upload the file: " + file.getOriginalFilename() + "!";
+                redirectAttributes.addFlashAttribute("error_message", message);
+            }
+        } else {
+            message = "Please upload a csv file!";
+            redirectAttributes.addFlashAttribute("error_message", message);
+        }
+        return "redirect:/organiser/exams/view?id=" + examId;
+    }
+
 
     public void saveCSVFile(MultipartFile file, Long exam_id) {
         try {
@@ -172,28 +194,7 @@ public class UserController {
         return "redirect:/organiser/exams/view?id="+exam_id;
     }
 
-    @PostMapping("/user/csv/uploadQuiz")
-    public String uploadquiz(@RequestParam("files") MultipartFile file,
-                             @RequestParam(name = "exam_id") Long examId,
-                             RedirectAttributes redirectAttributes,
-                             Model model) {
-        String message;
-
-        if (CSVHelper.hasCSVFormat(file)) {
-            try {
-                saveCSVQuiz(file, examId);
-                message = "Uploaded the file successfully: " + file.getOriginalFilename();
-                redirectAttributes.addFlashAttribute("success_message", message);
-            } catch (Exception e) {
-                message = "Could not upload the file: " + file.getOriginalFilename() + "!";
-                redirectAttributes.addFlashAttribute("error_message", message);
-            }
-        } else {
-            message = "Please upload a csv file!";
-            redirectAttributes.addFlashAttribute("error_message", message);
-        }
-        return "redirect:/organiser/exams/view?id=" + examId;
-    }
+  
 
     @PostMapping("/organiser/user/add")
     public String addUser(@RequestParam(name = "exam_id")Long exam_id,@RequestParam(name="name")String name,@RequestParam(name="email")String email){
@@ -233,7 +234,7 @@ public class UserController {
     @PostMapping("{examCode}/login")
     public String loginUser(@PathVariable(name = "examCode")String examCode,@RequestParam(name = "email")String email,@RequestParam(name = "password")String password,Model model,HttpSession session){
         String redirectUrl="redirect:/"+examCode+"/login";
-        try{
+        try{      
             if(checkValidExamCode(examCode)){
                 User user=userRepo.findByEmail(email);
                 if(user==null){

@@ -37,7 +37,7 @@ public class OrganiserController {
 		model.addAttribute("organiser",new Organiser());
 		return "organiser/register";
 	}
-	
+	 
 	
 	
 	
@@ -56,7 +56,7 @@ public class OrganiserController {
 		if(user instanceof OrganiserDetails){
 			return "redirect:/organiser/dashboard";
 		}
-		return "organiser/login";
+		return "redirect:/login";
 	}
 	
 	@GetMapping("organiser/dashboard")

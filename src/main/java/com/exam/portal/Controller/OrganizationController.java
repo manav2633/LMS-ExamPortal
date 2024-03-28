@@ -45,6 +45,7 @@ public class OrganizationController {
 	@PostMapping("/organiser/organization/register")
 	public String registerOrganization(@ModelAttribute Organization organization) {
 		// Save the organization to the database
+		organization.setRegistered_date(new Date());
 		repo.save(organization);
 		// Redirect to a success page or return a success message
 		return "redirect:/organiser/organization/";
